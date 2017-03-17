@@ -27,10 +27,6 @@
 			margin-bottom: -5px;
 		}
 		
-		.reset {
-			text-decoration: none;
-		}
-		
 		#ctx {}
 	</style>
 
@@ -38,9 +34,7 @@
 
 <body>
 	<center>
-		<a href="#" onclick="window.location.reload();" class="reset">
-			<h1 id="pageTitle">Sumo.io</h1>
-		</a>
+		<h1 id="pageTitle" onclick="pro();">Sumo.io</h1>
 		<canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
 		<img id="player" width="50" height="50" src="./Player.png" hidden>
 	</center>
@@ -90,10 +84,10 @@
 			fps = 0;
 		}, 1000);
 
-		function connect(data) {
-			var hashData = data.split(",");
+		function connect(name) {
+
 			socket = io("//sumodinokick-herohamp.c9users.io:8081/", {
-				query: `name=${hashData[0]}&color=${hashData[1]}`
+				query: `name=${name}`
 			});
 
 			socket.on('connect_error', function() {
@@ -134,20 +128,8 @@
 					case "redhawk654":
 						alert("Go hawk yourself");
 						break;
-					case "herohamp":
-						alert("I am your hero");
-						break;
-					case "game guy7":
-						alert("I'll be your guy");
-						break;
-					case "shawnieplayz":
-						alert("Get Played!");
-						break;
-					case "carolyn":
-						alert("ICE CREAM!!!!");
-						break;
 				}
-				window.location.reload();
+				location.reload();
 			});
 
 			function render() {
@@ -156,8 +138,12 @@
 				for (i in gameData) {
 					if (gameData[i] != null) {
 						let sPlayer = gameData[i]
-						ctx.fillStyle = sPlayer.color;
-						ctx.strokeRect(sPlayer.x, sPlayer.y, player.width, player.height);
+						if (socket_my == i.toString()) {
+							ctx.fillStyle = "blue";
+						}
+						else {
+							ctx.fillStyle = "red";
+						}
 						ctx.fillRect(sPlayer.x, sPlayer.y, player.width, player.height);
 						ctx.fillStyle = "black";
 						ctx.font = "15px Walter Turncoat";
@@ -279,30 +265,10 @@
 							}
 						})
 					}
-				}).then(function(result1) {
-					var result1 = result1.toLowerCase().substring(0, 20);
-
-					swal({
-						title: 'What color should you be? Same color = Same Team',
-						input: 'text',
-						showCancelButton: false,
-						allowEscapeKey: false,
-						inputValidator: function(value) {
-							return new Promise(function(resolve, reject) {
-								if (value) {
-									resolve()
-								}
-								else {
-									reject('You need to write a color!')
-								}
-							})
-						}
-					}).then(function(result2) {
-						connect(`${result1},${result2}`);
-						window.location.hash = `${result1},${result2}`;
-					})
-
-
+				}).then(function(result) {
+					var result = result.toLowerCase().substring(0, 20);
+					connect(`${result}`);
+					window.location.hash = `${result}`;
 				})
 			}
 		}
