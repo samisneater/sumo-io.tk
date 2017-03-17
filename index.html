@@ -92,12 +92,15 @@
 
 		function connect(data) {
 			var hashData = data.split(",");
-			socket = io("//sumodinokick-herohamp.c9users.io:8081/", {
+			socket = io("//sumo-io-tk-server.herokuapp.com", {
 				query: `name=${hashData[0]}&color=${hashData[1]}`
 			});
 
 			socket.on('connect_error', function() {
-				//alert('Failed to connect to server');
+				swal(
+					'Server issue... Please try again in 30s-60s',
+					'error'
+				)
 			});
 
 			const player = {
