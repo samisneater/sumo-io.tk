@@ -94,7 +94,7 @@
 
 		function connect(data) {
 			var hashData = data.split(",");
-			var server = getParameterByName("ip") || servers.randomElement();
+			var server = servers[getParameterByName("ip")] || servers.randomElement();
 			socket = io(server, {
 				query: `name=${hashData[0]}&color=${hashData[1]}`
 			});
