@@ -119,17 +119,17 @@
 				}
 			}
 
-			socket.on('overWritePositions', function(data) {
+			socket.on('1', function(data) {
 				onPacket();
 				gameData = data;
 				render();
 			});
 
-			socket.on("socketID", function(data) {
+			socket.on("0", function(data) {
 				socket_my = data;
 			});
 
-			socket.on("youDied", function(data) {
+			socket.on("3", function(data) {
 				socket.disconnect();
 				switch (data) {
 					case "redjive":
@@ -178,7 +178,7 @@
 
 			}
 
-			socket.on('newPositions', function(data) {
+			socket.on('2', function(data) {
 				onPacket();
 				for (i in data) {
 					gameData[i] = data[i];
