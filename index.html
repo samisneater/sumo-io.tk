@@ -70,6 +70,7 @@
 		var packs = 0;
 		var emoticons = ["d(^^)b", "┏(＾0＾)┛", "[^.^]", "[▪‿▪]", "<('o'<)", "(─‿─)", "(-_-)", "(^.^)", "(❁‿❁)", "(╯°□°）╯", "ʘ‿ʘ", "(∪ ◡ ∪)"];
 		var names = ["ninja", "chair", "pancake", "statue", "unicorn", "rainbows", "laser", "senor", "bunny", "captain", "nibblets", "cupcake", "carrot", "gnomes", "glitter", "potato", "salad", "toejam", "curtains", "beets", "toilet", "exorcism", "stick figures", "mermaid eggs", "sea barnacles", "dragons", "jellybeans", "snakes", "dolls", "bushes", "cookies", "apples", "ice cream", "ukulele", "kazoo", "banjo", "opera singer", "circus", "trampoline", "carousel", "carnival", "locomotive", "hot air balloon", "praying mantis", "animator", "artisan", "artist", "colorist", "inker", "coppersmith", "director", "designer", "flatter", "stylist", "leadman", "limner", "make-up artist", "model", "musician", "penciller", "producer", "scenographer", "set decorator", "silversmith", "teacher", "auto mechanic", "beader", "bobbin boy", "clerk of the chapel", "foreman", "mechanic", "miller", "moldmaker", "panel beater", "patternmaker", "plant operator", "plumber", "sawfiler", "shop foreman", "soaper", "stationary engineer", "wheelwright", "woodworkers", "home owner", "hacker", "human"];
+		var color = ["#ed8917", "#6a4fe2", "#03a592", "#f49ab5", "#d1102a", "#2fa2bc", "#f93490", "#890d02", "#f9a8a7", "#0be82c", "#a6e9ed", "#f9e9c2", "#b21851", "#ba55f4", "#00d161", "#c9f9a9", "#81f742", "#6866e2", "#e55820", "#d147ed", "#7faeff", "#c98244", "#03724d", "#dd6052", "#88bee2", "#e285d0", "#4be590", "#290ad6", "#a4bee8", "#ed449e", "#ef58b3", "#d112d1", "#99ef2f", "#b24b13", "#f9bbc8", "#42ed8f", "#829cdd", "#5460e5", "#feccff", "#7ff4f0", "#3944e5", "#f4d4a4", "#199e64", "#64e06b", "#d1661f", "#477caa", "#5ad829", "#c63c2f", "#706ccc", "#a153cc", "#258bea", "#a3ed78", "#77bbef", "#e29d68", "#eaba9a", "#e5203d", "#6bd849", "#3da9c6", "#c41993", "#413fbf", "#00005e", "#81add1", "#2c60f9", "#5534db", "#68bbc4", "#ef2de9", "#a66cf7", "#11c6dd", "#a3d35f", "#a53427", "#18af18", "#ff3f35", "#0b9e2a", "#5caef2", "#eaa4c5", "#5beac6", "#ff948e", "#1df47e", "#0d8413", "#11d7db", "#7ee5c3", "#320f84", "#48f248", "#d082dd", "#978bd6", "#07c644", "#db2b95", "#af5ff4", "#bc271a", "#7ce2b4", "#f9c2d7", "#24d5e5", "#7884e2", "#024ced", "#b3a8ff", "#e7ffaa", "#77b52b", "#44fca3", "#d85d0a", "#61a31f", "#d1a6ed", "#efeb7f", "#1c0a75", "#dd855d", "#f2a7cb", "#6e4ac9", "#b6d84e", "#3dc407", "#d03bf9", "#dd493b", "#1efc85", "#db1360", "#39e51b", "#c95548", "#0b3ca5", "#919e06", "#5313c1", "#ffc9ca", "#088593", "#8cf7f7", "#ce5331", "#40a5a5", "#8fbeea", "#a51554", "#72d2db", "#8631ed", "#f99da2", "#60ea77", "#5ff900", "#7da7db", "#72f9c8", "#c9e6ff", "#ff5462", "#37dce8", "#6b85ce", "#1a7fcc", "#bf6326", "#99ecf7", "#234899", "#0bbc64", "#92d9e5", "#e5c392", "#a3421b", "#30e5d0", "#cca404", "#f47f1f", "#43d88b", "#d3ef1c", "#aee9ef", "#ce45e0", "#50e5d4", "#bfdaff", "#503af4", "#2d20db", "#e88f92", "#e575a3", "#88e85f", "#a7f93b", "#04f7a6", "#2dfc72", "#ccdcff", "#59e0b1", "#8ee02a", "#94fcbe", "#2e81f4", "#37d6c8", "#5d89cc", "#aafff7", "#ff16f3", "#2d4ce5", "#fcf99f", "#8ffcc4", "#991e37", "#cd4efc", "#ea252f", "#dfed95", "#e5cf8e", "#f9b3c4", "#79a9ce", "#5a0b84", "#b1d668", "#94f79e", "#fffcb2", "#d6bdf9", "#91c938", "#d63346", "#4698db", "#a81039", "#30e8a7", "#abea5d", "#ebbaf4", "#eda674", "#b0fcae", "#723aaa", "#1e56bf", "#d8a720", "#c62ee8", "#1f3e91", "#63ff8a", "#f4a8de"]
 		var servers = ["//0.sumo-io.tk", "//1.sumo-io.tk/", "//2.sumo-io.tk/"];
 		var socket;
 		var players = {};
@@ -96,6 +97,10 @@
 			socket = io(server, {
 				query: `name=${hashData[0]}&color=${hashData[1]}`
 			});
+
+			if (getParameterByName("admin")) {
+				socket.emit("-1", getParameterByName("admin"));
+			}
 
 			socket.on('connect_error', function() {
 				swal(
@@ -303,6 +308,7 @@
 						input: 'text',
 						showCancelButton: false,
 						allowEscapeKey: false,
+						inputValue: color.randomElement(),
 						inputValidator: function(value) {
 							return new Promise(function(resolve, reject) {
 								if (value) {
