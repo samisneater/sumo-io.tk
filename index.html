@@ -71,7 +71,12 @@
 		var packs = 0;
 		var emoticons = ["d(^^)b", "┏(＾0＾)┛", "[^.^]", "[▪‿▪]", "<('o'<)", "(─‿─)", "(-_-)", "(^.^)", "(❁‿❁)", "(╯°□°）╯", "ʘ‿ʘ", "(∪ ◡ ∪)"];
 		var names = ["ninja", "chair", "pancake", "statue", "unicorn", "rainbows", "laser", "senor", "bunny", "captain", "nibblets", "cupcake", "carrot", "gnomes", "glitter", "potato", "salad", "toejam", "curtains", "beets", "toilet", "exorcism", "stick figures", "mermaid eggs", "sea barnacles", "dragons", "jellybeans", "snakes", "dolls", "bushes", "cookies", "apples", "ice cream", "ukulele", "kazoo", "banjo", "opera singer", "circus", "trampoline", "carousel", "carnival", "locomotive", "hot air balloon", "praying mantis", "animator", "artisan", "artist", "colorist", "inker", "coppersmith", "director", "designer", "flatter", "stylist", "leadman", "limner", "make-up artist", "model", "musician", "penciller", "producer", "scenographer", "set decorator", "silversmith", "teacher", "auto mechanic", "beader", "bobbin boy", "clerk of the chapel", "foreman", "mechanic", "miller", "moldmaker", "panel beater", "patternmaker", "plant operator", "plumber", "sawfiler", "shop foreman", "soaper", "stationary engineer", "wheelwright", "woodworkers", "home owner", "hacker", "human"];
-		var servers = ["//0.sumo-io.tk", "//1.sumo-io.tk/", "//2.sumo-io.tk/"];
+		var servers = {
+			0: "//0.sumo-io.tk",
+			1: "//1.sumo-io.tk/",
+			2: "//2.sumo-io.tk/",
+			dev: "//sumodinokick-herohamp.c9users.io:8081"
+		};
 		var socket;
 		var players = {};
 		var socket_my;
@@ -90,6 +95,10 @@
 		var fpsTimer = setInterval(function() {
 			fps = 0;
 		}, 1000);
+
+		if (getParameterByName("ip") == "dev" && !getParameterByName("bypass")) {
+			alert("I know you think you are smart by connecting to the dev server but just don't.... It will be laggy and most likly broken as it is used for testing clients which have not been released yet...");
+		}
 
 		function connect(data) {
 			var hashData = data.split(",");
@@ -193,25 +202,25 @@
 
 			document.onkeydown = function(event) {
 				if (event.keyCode === 68 || event.keyCode === 39) { //d
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'right',
 						state: true
 					});
 				}
 				else if (event.keyCode === 83 || event.keyCode === 40) { //s
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'down',
 						state: true
 					});
 				}
 				else if (event.keyCode === 65 || event.keyCode === 37) { //a
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'left',
 						state: true
 					});
 				}
 				else if (event.keyCode === 87 || event.keyCode === 38) { // w
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'up',
 						state: true
 					});
@@ -220,25 +229,25 @@
 			}
 			document.onkeyup = function(event) {
 				if (event.keyCode === 68 || event.keyCode === 39) { //d
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'right',
 						state: false
 					});
 				}
 				else if (event.keyCode === 83 || event.keyCode === 40) { //s
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'down',
 						state: false
 					});
 				}
 				else if (event.keyCode === 65 || event.keyCode === 37) { //a
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'left',
 						state: false
 					});
 				}
 				else if (event.keyCode === 87 || event.keyCode === 38) { // w
-					socket.emit('keyPress', {
+					socket.emit('4', {
 						inputId: 'up',
 						state: false
 					});
